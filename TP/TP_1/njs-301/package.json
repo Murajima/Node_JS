@@ -1,0 +1,14 @@
+{
+  "name": "njs-301",
+  "version": "1.0.0",
+  "description": "Some fake project to test npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Antoine Poussard",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
+}
