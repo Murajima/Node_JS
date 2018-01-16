@@ -7,7 +7,7 @@ const compteur = 1
 
 function play (compteur) {
     rl.question('Entrez un nombre entre 0 et 10 \n', (answer) => {
-        process.stdout.write("Tu as répondu : " + answer +"\n")
+        console.log("Tu as répondu : " + answer +"\n")
         if (/^\d{1,3}$/.test(answer)){
             if (answer == solution) {
                 console.log('gagné en ' + compteur + " coups")
