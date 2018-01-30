@@ -2,10 +2,15 @@
   "name": "chat",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "views/message/index.pug",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^1.5.1",
+    "pug": "^2.0.0-rc.4",
+    "sequelize": "^4.32.2"
+  }
 }
