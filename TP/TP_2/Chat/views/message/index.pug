@@ -7,10 +7,10 @@ html
         div
             each message in messages
                 p #{message.User} le #{message.createdAt} : #{message.Message}
-        form(method='POST' action='/message')
+        form(method='POST' action='/messages')
             div.form-group
                 label(for='name') Pseudo:
-                input#name.form-control(type='text', placeholder='Pseudo' name='pseudo')
+                input#name.form-control(type'text', placeholder='Pseudo' name='pseudo')
             div.form-group
                 label(for='name') Message:
                 input#name.form-control(type='text', placeholder='Message' name='Message')
