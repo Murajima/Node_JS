@@ -2,9 +2,11 @@
   "name": "chat",
   "version": "1.0.0",
   "description": "",
-  "main": "views/message/index.pug",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js && node server.js",
+    "hello": "echo world"
   },
   "author": "",
   "license": "ISC",

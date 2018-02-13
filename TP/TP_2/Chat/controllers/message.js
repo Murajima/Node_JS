@@ -1,4 +1,4 @@
-const Message = require('../models/message')
+const Message = require('../models/messageModel.js')
 function index(req, res) {
     res.write('Index action -> à completer')
     res.end()

@@ -1,4 +1,6 @@
 const db = require('../db')
+const Sequelize = require('sequelize')
+
 const Message = db.define('message', {
 	User: {
 		type: Sequelize.STRING
@@ -8,5 +10,7 @@ const Message = db.define('message', {
 	}
 
 })
+
+Message.sync()
 
 module.exports = Message

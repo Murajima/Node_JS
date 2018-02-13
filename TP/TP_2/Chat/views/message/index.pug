@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+        title Chat
+    body
+        h1 Les messages
+        div
+            each message in messages
+                p #{message.User} le #{message.createdAt} : #{message.Message}
+        form(method='POST' action='/message')
+            div.form-group
+                label(for='name') Pseudo:
+                input#name.form-control(type='text', placeholder='Pseudo' name='pseudo')
+            div.form-group
+                label(for='name') Message:
+                input#name.form-control(type='text', placeholder='Message' name='Message')
+            button.btn.btn-primary(type='submit') Envoyer
