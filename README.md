@@ -4,6 +4,6 @@ Dépot totalisant l'intégralité des cours et des TP réalisés dans le cadre d
 
 * Cours: PDF de cours
 * TP
-    *TP_1: Exemples en NodeJS
-    *TP_2: Exemple de promesses
+ *TP_1: Exemples en NodeJS
+ *TP_2: Exemple de promesses
 * NodeOpenWeather: Projet Inquirer + Commander
