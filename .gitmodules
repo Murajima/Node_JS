@@ -1,0 +1,3 @@
+[submodule "NodeOpenWeather"]
+	path = NodeOpenWeather
+	url = https://github.com/Murajima/NodeOpenWeatherGonthierPoussard.git
