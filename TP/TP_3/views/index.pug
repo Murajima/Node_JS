@@ -1,0 +1,9 @@
+html
+	head
+		title= title
+body
+	h1 Bonjour #{name}
+	ul
+		each val in content
+			li= val.Message + " le " + val.createdAt + "      Avancement: " + val.Completion
+	a(href="/add") I add a Todo

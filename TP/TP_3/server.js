@@ -14,9 +14,11 @@ app.all('*', (req, res, next) => {
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.set('views', './views')
+app.set('view engine', 'pug')
 
 app.post('/todos', (req, res, next) => {
-    var message = req.query.message
+    var message = req.body.message
 
     if(needSync) {
         utils.getTodos().then((result) => {
@@ -25,7 +27,7 @@ app.post('/todos', (req, res, next) => {
             utils.insertIntoTodo(message).then((result) => {
                 utils.getTodos().then((result) => {
                     needSync = true
-                    res.send(TODO)
+                    res.redirect('/todos')
                 })
             })
         })
@@ -39,6 +41,14 @@ app.post('/todos', (req, res, next) => {
     }
 })
 
+// app.get('/todos', (req, res, next) => {
+//     res.render('index', {
+//         title: 'Bonjour !',
+//         name: 'Toto',
+//         content: 'Ma première page'
+//     })
+// })
+
 app.get('/todosGET', (req, res, next) => {
     utils.getTodos().then((result) => {
         res.send(result)
@@ -47,22 +57,24 @@ app.get('/todosGET', (req, res, next) => {
 
 app.get('/todos/:todoId', (req, res, next) => {
     // var id = req.param('id')
-    console.log('ici')
     console.log(req.params.todoId)
     var id = req.params.todoId
     var returnDict = {}
     if(needSync) {
         utils.getTodos().then((result) => {
-            console.log(result)
             TODO = result;
             needSync = false
             TODO.forEach(function(element){
-                console.log(element)
                 if(element.id == id) {
                     returnDict = element
                 }
             })
-            res.send(returnDict)
+            console.log(returnDict)
+            res.render('show', {
+                title: 'Bonjour !',
+                name: 'Toto',
+                content: returnDict
+            })
         })
     } else {
         TODO.forEach(function(element){
@@ -70,22 +82,45 @@ app.get('/todos/:todoId', (req, res, next) => {
                 returnDict = element
             }
         })
-        res.send(returnDict)
+        res.render('show', {
+                title: 'Bonjour !',
+                name: 'Toto',
+                content: returnDict
+            })
     }
+})
+
+app.get('/add', (req, res, next) => {
+    console.log('ici')
+    res.render('edit')
 })
 
 app.get('/todos', (req, res, next) => {
     var offset = req.param('offset')
     var limit = req.param('limit')
-    console.log(offset)
-    utils.getTodosOffset(offset, limit).then((result) => {
-        res.send(result)
-    })
+    if(offset != null && limit != null ){
+        console.log('ici')
+        utils.getTodosOffset(offset, limit).then((result) => {
+
+            res.render('index', {
+                title: 'Bonjour !',
+                name: 'Toto',
+                content: result
+            })
+        })
+    } else {
+        utils.getTodos().then((result) => {
+            res.render('index', {
+                title: 'Bonjour !',
+                name: 'Toto',
+                content: result
+            })
+        })
+    }
 })
 
 app.patch('/todos/:todoId', (req, res, next) => {
     var id = req.params.todoId
-    console.log(req.params)
     utils.patchTodoById(id).then((result) => {
         res.send('DONE')
     })

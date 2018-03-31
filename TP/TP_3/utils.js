@@ -42,7 +42,7 @@ function deleteTodoById(Id) {
     })
 }
 
-function patchTo2doById(Id) {
+function patchTodoById(Id) {
 	return new Promise((resolve, reject) => {
 		Models.Todo.update({
 			Completion: true,
@@ -51,7 +51,9 @@ function patchTo2doById(Id) {
 		  where: {
 		    id: parseInt(Id)
 		  }
-		});
+		}).then(() => {
+            resolve("DONE")
+        })
 	})
 }
 
