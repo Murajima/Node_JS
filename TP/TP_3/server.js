@@ -41,14 +41,6 @@ app.post('/todos', (req, res, next) => {
     }
 })
 
-// app.get('/todos', (req, res, next) => {
-//     res.render('index', {
-//         title: 'Bonjour !',
-//         name: 'Toto',
-//         content: 'Ma première page'
-//     })
-// })
-
 app.get('/todosGET', (req, res, next) => {
     utils.getTodos().then((result) => {
         res.send(result)
@@ -126,10 +118,24 @@ app.patch('/todos/:todoId', (req, res, next) => {
     })
 })
 
+app.get('/editTodo/:todoId', (req, res, next) => {
+    var id = req.params.todoId
+    utils.patchTodoById(id).then((result) => {
+        res.redirect('/todos')
+    })
+})
+
 app.delete('/todos/:todoId', (req, res, next) => {
     var id = req.params.todoId
     utils.deleteTodoById(id).then((result) => {
         res.send('DONE')
+    })
+})
+
+app.get('/delTodos/:todoId', (req, res, next) => {
+    var id = req.params.todoId
+    utils.deleteTodoById(id).then((result) => {
+        res.redirect('/todos')
     })
 })
 

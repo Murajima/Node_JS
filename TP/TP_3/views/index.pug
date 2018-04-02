@@ -1,9 +1,28 @@
 html
-	head
-		title= title
+    head
+        title= title
+        style
+            include style.css
 body
-	h1 Bonjour #{name}
-	ul
-		each val in content
-			li= val.Message + " le " + val.createdAt + "      Avancement: " + val.Completion
-	a(href="/add") I add a Todo
+    h1 TODOLIST
+    div
+        table
+            thead
+                tr: th Todo
+                    th
+                    th
+            tbody
+                each val in content
+                    tr
+                        td= val.Message
+                        td= " le " + val.createdAt
+                        td
+                            input(type='checkbox' checked=val.Completion==1)
+                        td
+                            a(href="/editTodo/" + val.id) Validate
+                        td
+                            a(href="/delTodos/" + val.id) Delete
+                        td
+                            a(href="/todos/" + val.id) Details
+
+    a(href="/add") I add a Todo
