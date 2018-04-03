@@ -10,7 +10,7 @@ router.post('/', (req, res, next) => {
     var password = req.body.password
     user.insertIntoUsers(username, password).then((result) => {
         user.getUsers().then((result) => {
-            res.send(result)
+            res.redirect('/login')
         })
     })
 })

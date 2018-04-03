@@ -29,6 +29,10 @@ body
                         td
                             form.form-inline(action='/todos/' + val.id + '?_method=DELETE', method="POST")
                                 button.btn-primary(type="submit") Delete
-
-    a(href="/add") I add a Todo
-    a(href="/users/register") Register
+                        td
+                            form.form-inline(action='/todos/' + val.id, method="GET")
+                                button.btn-primary(type="submit") Details
+    div
+        a(href="/add") I add a Todo
+    div
+        a(href="/login/disconnect") Disconnect

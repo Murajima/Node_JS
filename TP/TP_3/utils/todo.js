@@ -1,14 +1,14 @@
 const Models = require('../models/models.js')
 const db = require('../models/db.js')
 
-function insertIntoTodo (message) {
+function insertIntoTodo (message, id) {
     return new Promise((resolve,reject) => {
         Models.Todo.create({
             Message: message,
             Completion: false,
             createdAt: Date.now(),
             updatedAt: Date.now(),
-            userId: 1
+            userId: id
         }).then(() => {
             resolve("data saved")
         })

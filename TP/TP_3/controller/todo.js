@@ -10,12 +10,16 @@ var USER = {}
 var needSync = true
 
 router.all('*', (req, res, next) => {
-    next()
+    if(req.session.username == "") {
+        res.redirect('/login')
+    } else {
+        next()
+    }
 })
 
 router.post('/todos', (req, res, next) => {
     var message = req.body.message
-    todo.insertIntoTodo(message).then((result) => {
+    todo.insertIntoTodo(message, req.session.userID).then((result) => {
         todo.getTodos().then((result) => {
             needSync = true;
             res.redirect('/todos')
@@ -31,7 +35,7 @@ router.get('/todos', (req, res, next) => {
 
             res.render('todos/index', {
                 title: 'Bonjour !',
-                name: 'Toto',
+                name: req.session.username,
                 content: result
             })
         })
@@ -51,7 +55,7 @@ router.get('/todos', (req, res, next) => {
                 })
                 res.render('todos/index', {
                     title: 'Bonjour !',
-                    name: 'Toto',
+                    name: req.session.username,
                     content: returnDict
                 })
             })
@@ -69,7 +73,7 @@ router.get('/todos/:todoId', (req, res, next) => {
     })
     res.render('todos/show', {
             title: 'Bonjour !',
-            name: 'Toto',
+            name: req.session.username,
             content: returnDict
     })
 })
