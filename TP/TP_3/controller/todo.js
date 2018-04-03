@@ -1,5 +1,5 @@
-const Models = require('./models/models.js')
-const db = require('./db.js')
+const Models = require('../models/models.js')
+const db = require('../models/db.js')
 
 function insertIntoTodo (message) {
     return new Promise((resolve,reject) => {
@@ -15,31 +15,10 @@ function insertIntoTodo (message) {
     })
 }
 
-function insertIntoUsers (login, password) {
-    return new Promise((resolve,reject) => {
-        Models.Todo.create({
-            Name: login,
-            password: password,
-            createdAt: Date.now(),
-            updatedAt: Date.now()
-        }).then(() => {
-            resolve("data saved")
-        })
-    })
-}
-
 function getTodos () {
     return new Promise((resolve, reject) =>{
         db.query("SELECT * FROM `todos`", { type: db.QueryTypes.SELECT}).then((todos) => {
             resolve(todos)
-        })
-    })
-}
-
-function getUsers () {
-    return new Promise((resolve, reject) =>{
-        db.query("SELECT * FROM `users`", { type: db.QueryTypes.SELECT}).then((users) => {
-            resolve(users)
         })
     })
 }
@@ -64,18 +43,6 @@ function deleteTodoById(Id) {
     })
 }
 
-function deleteUserById(Id) {
-    return new Promise((resolve,reject) => {
-        Models.Users.destroy({
-            where: {
-                id: parseInt(Id)
-            }
-        }).then(() => {
-            resolve("data deleted")
-        })
-    })
-}
-
 function patchTodoById(Id) {
 	return new Promise((resolve, reject) => {
 		Models.Todo.update({
@@ -91,4 +58,4 @@ function patchTodoById(Id) {
 	})
 }
 
-module.exports = {insertIntoTodo, getTodos, getTodosOffset, deleteTodoById, patchTodoById, insertIntoUsers, deleteUserById, getUsers}
+module.exports = {insertIntoTodo, getTodos, getTodosOffset, deleteTodoById, patchTodoById}
