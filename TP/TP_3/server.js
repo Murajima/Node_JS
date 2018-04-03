@@ -20,29 +20,12 @@ app.set('view engine', 'pug')
 
 app.post('/todos', (req, res, next) => {
     var message = req.body.message
-
-    if(needSync) {
-        user.getUsers().then((result) => {
-            USER = result
-        })
+    todo.insertIntoTodo(message).then((result) => {
         todo.getTodos().then((result) => {
-            needSync = false;
-            TODO = result;
-            todo.insertIntoTodo(message).then((result) => {
-                todo.getTodos().then((result) => {
-                    needSync = true
-                    res.redirect('/todos')
-                })
-            })
+            needSync = true;
+            res.redirect('/todos')
         })
-    } else {
-        todo.insertIntoTodo(message).then((result) => {
-            todo.getTodos().then((result) => {
-                needSync = true;
-                res.send(TODO)
-            })
-        })
-    }
+    })
 })
 
 app.get('/todos', (req, res, next) => {
@@ -61,6 +44,7 @@ app.get('/todos', (req, res, next) => {
         user.getUsers().then((result) => {
             USER = result
             todo.getTodos().then((result) => {
+                TODO = result
                 returnDict = []
                 result.forEach(function(todo) {
                     USER.forEach(function(user){
@@ -80,43 +64,19 @@ app.get('/todos', (req, res, next) => {
     }
 })
 
-
-app.get('/todosGET', (req, res, next) => {
-    todo.getTodos().then((result) => {
-        res.send(result)
-    })
-})
-
 app.get('/todos/:todoId', (req, res, next) => {
     var id = req.params.todoId
     var returnDict = {}
-    if(needSync) {
-        todo.getTodos().then((result) => {
-            TODO = result;
-            needSync = false
-            TODO.forEach(function(element){
-                if(element.id == id) {
-                    returnDict = element
-                }
-            })
-            res.render('todos/show', {
-                title: 'Bonjour !',
-                name: 'Toto',
-                content: returnDict
-            })
-        })
-    } else {
-        TODO.forEach(function(element){
-            if(element.id == id) {
-                returnDict = element
-            }
-        })
-        res.render('todos/show', {
-                title: 'Bonjour !',
-                name: 'Toto',
-                content: returnDict
-            })
-    }
+    TODO.forEach(function(element){
+        if(element.id == id) {
+            returnDict = element
+        }
+    })
+    res.render('todos/show', {
+            title: 'Bonjour !',
+            name: 'Toto',
+            content: returnDict
+    })
 })
 
 app.get('/add', (req, res, next) => {
