@@ -6,6 +6,7 @@ const todo = require('./controller/todo.js')
 const user = require('./controller/user.js')
 
 var TODO = {}
+var USER = {}
 var needSync = true
 
 app.all('*', (req, res, next) => {
@@ -21,6 +22,9 @@ app.post('/todos', (req, res, next) => {
     var message = req.body.message
 
     if(needSync) {
+        user.getUsers().then((result) => {
+            USER = result
+        })
         todo.getTodos().then((result) => {
             needSync = false;
             TODO = result;
@@ -40,6 +44,42 @@ app.post('/todos', (req, res, next) => {
         })
     }
 })
+
+app.get('/todos', (req, res, next) => {
+    var offset = req.param('offset')
+    var limit = req.param('limit')
+    if(offset != null && limit != null ){
+        todo.getTodosOffset(offset, limit).then((result) => {
+
+            res.render('todos/index', {
+                title: 'Bonjour !',
+                name: 'Toto',
+                content: result
+            })
+        })
+    } else {
+        user.getUsers().then((result) => {
+            USER = result
+            todo.getTodos().then((result) => {
+                returnDict = []
+                result.forEach(function(todo) {
+                    USER.forEach(function(user){
+                        if(todo.userId == user.id){
+                            todo.name = user.Name
+                        }
+                    })
+                    returnDict.push(todo)
+                })
+                res.render('todos/index', {
+                    title: 'Bonjour !',
+                    name: 'Toto',
+                    content: returnDict
+                })
+            })
+        })
+    }
+})
+
 
 app.get('/todosGET', (req, res, next) => {
     todo.getTodos().then((result) => {
@@ -81,29 +121,6 @@ app.get('/todos/:todoId', (req, res, next) => {
 
 app.get('/add', (req, res, next) => {
     res.render('todos/edit')
-})
-
-app.get('/todos', (req, res, next) => {
-    var offset = req.param('offset')
-    var limit = req.param('limit')
-    if(offset != null && limit != null ){
-        todo.getTodosOffset(offset, limit).then((result) => {
-
-            res.render('todos/index', {
-                title: 'Bonjour !',
-                name: 'Toto',
-                content: result
-            })
-        })
-    } else {
-        todo.getTodos().then((result) => {
-            res.render('todos/index', {
-                title: 'Bonjour !',
-                name: 'Toto',
-                content: result
-            })
-        })
-    }
 })
 
 app.patch('/todos/:todoId', (req, res, next) => {

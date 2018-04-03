@@ -9,6 +9,10 @@ body
         table
             thead
                 tr: th Todo
+                    th Date
+                    th Par
+                    th
+                    th
                     th
                     th
             tbody
@@ -16,6 +20,7 @@ body
                     tr
                         td= val.Message
                         td= " le " + val.createdAt
+                        td= val.name
                         td
                             input(type='checkbox' checked=val.Completion==1)
                         td
