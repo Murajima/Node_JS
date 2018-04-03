@@ -24,10 +24,11 @@ body
                         td
                             input(type='checkbox' checked=val.Completion==1)
                         td
-                            a(href="/editTodo/" + val.id) Validate
+                            form.form-inline(action='/todos/' + val.id + '?_method=PATCH', method="POST")
+                                button.btn-primary(type="submit") Validate
                         td
-                            a(href="/delTodos/" + val.id) Delete
-                        td
-                            a(href="/todos/" + val.id) Details
+                            form.form-inline(action='/todos/' + val.id + '?_method=DELETE', method="POST")
+                                button.btn-primary(type="submit") Delete
 
     a(href="/add") I add a Todo
+    a(href="/register") Register

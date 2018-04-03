@@ -9,17 +9,16 @@ const Users = db.define('users', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
-      }
-    }, {
-      instanceMethods: {
-        generateHash: function (password) {
-          return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
-        },
-        validPassword: function (password) {
-          return bcrypt.compareSync(password, this.password)
-        }
     }
 })
+
+// validPassword: function (password) {
+//           return bcrypt.compareSync(password, this.password)
+//         }
+
+// Users.prototype.generateHash = function (password) {
+//     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+// }
 
 
 const Todo = db.define('todos', {

@@ -1,12 +1,13 @@
 const Models = require('../models/models.js')
 const db = require('../models/db.js')
+const bcrypt = require('bcrypt-nodejs')
 
 
 function insertIntoUsers (login, password) {
     return new Promise((resolve,reject) => {
-        Models.Todo.create({
+        Models.Users.create({
             Name: login,
-            password: password,
+            password: generateHash(password),
             createdAt: Date.now(),
             updatedAt: Date.now()
         }).then(() => {
@@ -34,6 +35,10 @@ function deleteUserById(Id) {
             resolve("data deleted")
         })
     })
+}
+
+function generateHash(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }
 
 module.exports = {insertIntoUsers, deleteUserById, getUsers}

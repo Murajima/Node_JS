@@ -16,6 +16,9 @@
     "sequelize": "^4.37.3"
   },
   "devDependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "express-session": "^1.15.6",
+    "method-override": "^2.3.10",
     "pug": "^2.0.3"
   }
 }

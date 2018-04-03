@@ -1,9 +1,11 @@
 const express = require('express')
+const session = require('express-session')
 const app = express()
 const PORT = process.env.PORT || 8080
 const bodyParser = require('body-parser')
-const todo = require('./controller/todo.js')
-const user = require('./controller/user.js')
+const todo = require('./utils/todo.js')
+const user = require('./utils/user.js')
+const methodOverride = require('method-override')
 
 var TODO = {}
 var USER = {}
@@ -17,6 +19,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.set('views', './views')
 app.set('view engine', 'pug')
+app.use(methodOverride('_method'))
 
 app.post('/todos', (req, res, next) => {
     var message = req.body.message
@@ -24,6 +27,16 @@ app.post('/todos', (req, res, next) => {
         todo.getTodos().then((result) => {
             needSync = true;
             res.redirect('/todos')
+        })
+    })
+})
+
+app.post('/users', (req, res, next) => {
+    var username = req.body.username
+    var password = req.body.password
+    user.insertIntoUsers(username, password).then((result) => {
+        user.getUsers().then((result) => {
+            res.send(result)
         })
     })
 })
@@ -83,14 +96,11 @@ app.get('/add', (req, res, next) => {
     res.render('todos/edit')
 })
 
-app.patch('/todos/:todoId', (req, res, next) => {
-    var id = req.params.todoId
-    todo.patchTodoById(id).then((result) => {
-        res.send('DONE')
-    })
+app.get('/register', (req, res, next) => {
+    res.render('user/edit')
 })
 
-app.get('/editTodo/:todoId', (req, res, next) => {
+app.patch('/todos/:todoId', (req, res, next) => {
     var id = req.params.todoId
     todo.patchTodoById(id).then((result) => {
         res.redirect('/todos')
@@ -100,21 +110,15 @@ app.get('/editTodo/:todoId', (req, res, next) => {
 app.delete('/todos/:todoId', (req, res, next) => {
     var id = req.params.todoId
     todo.deleteTodoById(id).then((result) => {
-        res.send('DONE')
-    })
-})
-
-app.get('/delTodos/:todoId', (req, res, next) => {
-    var id = req.params.todoId
-    todo.deleteTodoById(id).then((result) => {
         res.redirect('/todos')
     })
 })
 
 
 
+
 app.use((req, res) => {
-    res.send(404, 'Not Found')
+    res.redirect('/todos')
 })
 
 app.listen(PORT, () => {
