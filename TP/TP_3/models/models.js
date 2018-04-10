@@ -12,15 +12,6 @@ const Users = db.define('users', {
     }
 })
 
-// validPassword: function (password) {
-//           return bcrypt.compareSync(password, this.password)
-//         }
-
-// Users.prototype.generateHash = function (password) {
-//     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
-// }
-
-
 const Todo = db.define('todos', {
     Message: {
         type: Sequelize.STRING
